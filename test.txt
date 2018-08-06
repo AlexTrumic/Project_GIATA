@@ -1,0 +1,16 @@
+		NetworkCredential myCred = new NetworkCredential("username", "password");
+		CredentialCache credsCache = new CredentialCache();
+
+		credsCache.Add(new Uri("http://ghgml.giatamedia.com/webservice/rest/1.0/items/"), "Basic", myCred);
+		
+		
+		WebRequest request = WebRequest.Create("http://ghgml.giatamedia.com/webservice/rest/1.0/items/");
+		request.Credentials = credsCache;
+		
+		request.Method = "GET";
+		WebResponse response = request.GetResponse();
+		using (var reader = new StreamReader(response.GetResponseStream()))
+        {
+            string result = reader.ReadToEnd(); 
+			Console.WriteLine(result);
+        }
