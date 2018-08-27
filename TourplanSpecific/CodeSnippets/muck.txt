@@ -1,0 +1,96 @@
+angular.module('ModuleName')  
+        .controller("ngControllerName", ["$http", "$scope", function ($http, $scope) {  
+        /*Request to C# Controller*/   
+        $scope.runTest = function(myTest){  
+            var config = {  
+                params:{myTest: myTest}  
+                }  
+        $http.get('/Example/Test', config).success(function (data) {  
+          if(data !=null && data.success){  
+            handleTest(myTest);  
+           }  
+        }).error(function (error) {  
+             //Handle Error   
+           });  
+         }  
+    }  
+	
+	
+	
+	
+	
+	
+	
+	@*Index.cshtml*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/scripts/angular.js"></script>
+    <title>Index</title>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="myCtrl">
+        <button ng-click="myFunc()">OK</button>
+        <p>{{progress}}</p>
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope, $http) {
+            $scope.myFunc = function () {
+                $http.get("../Models/Class2/Class2/getProgress")
+                    .then(function (response) {
+                        $scope.progress = "It did it";
+                    }, function (response) {
+                        $scope.progress = "Something went wrong";
+                    });
+            }
+        });
+    </script>
+</body>
+</html> 
+
+
+
+
+
+
+
+@*Index.cshtml*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/scripts/angular.js"></script>
+    <title>Index</title>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <br />
+        {{progress}}
+        
+    </div>
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope) {
+        @{WebApplication1.Models.Class2 myClass = new WebApplication1.Models.Class2();}
+        @{string updatedProgress = myClass.getProgress();}
+        $scope.progress = @updatedProgress;
+    });
+    </script>
+</body>
+</html> 
+
+
+@{WebApplication1.Models.Class2 myClass = new WebApplication1.Models.Class2();}
+@{string updatedProgress = myClass.getProgress();}
+
+
+
+
+
+
+
+
+
+
